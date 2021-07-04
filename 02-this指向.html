@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 1. 函数的直接调用 fun() 相当于 fun.call(window)
+      // 2. 作为对象的方法被调用 obj.fun.call(obj, arg)
+      var name = 222;
+      var a = {
+        name: 111,
+        say() {
+          console.log(this.name);
+        },
+      };
+      var fun = a.say;
+      fun(); // fun.call(window) // 222
+      a.say(); // a.say.call(a) // 111
+
+      var b = {
+        name: 333,
+        say(fun) {
+          fun(); // fun.call(window) // 222
+        },
+      };
+      b.say(a.say);
+      b.say = a.say;
+      b.say(); //  b.say.call(b) // 333
+
+
+      function sum(num, toatl = 1) {
+        if (num == 1) return toatl;
+        return sum(num-1, toatl + num);
+      }
+      // console.log(sum(10000)); // RangeError: Maximum call stack size exceeded
+      
+      function factorial(n) {
+        if (n === 1) return 1;
+        return n  + factorial(n - 1);
+      }
+      // console.log(factorial(10000));
+    </script>
+  </body>
+</html>
