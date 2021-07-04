@@ -30,19 +30,6 @@
       b.say(a.say);
       b.say = a.say;
       b.say(); //  b.say.call(b) // 333
-
-
-      function sum(num, toatl = 1) {
-        if (num == 1) return toatl;
-        return sum(num-1, toatl + num);
-      }
-      // console.log(sum(10000)); // RangeError: Maximum call stack size exceeded
-      
-      function factorial(n) {
-        if (n === 1) return 1;
-        return n  + factorial(n - 1);
-      }
-      // console.log(factorial(10000));
     </script>
   </body>
 </html>
