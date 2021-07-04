@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="input">
+  <script>
+    document.onkeydown = (e) => {
+      if(e.keyCode===83&&e.altKey) {
+        document.getElementById('input').focus()
+      }
+    }
+  </script>
+  <script>
+    /**
+     * 总结：  
+     *    1. 变量的声明和函数的声明会放在作用域的最前面
+     *    2.　先声明后赋值
+    */ 
+    
+
+    function fn(a, c) {
+      console.log(a); // function a() {}
+      var a = 123
+      console.log(a); // 123
+      console.log(c); // function c() {}
+      function a () {}
+      if(false) {
+        var d = 678
+      }
+      console.log(d); // undefined
+      console.log(b); // undefined
+      var b = function () {}
+      console.log(b); // function () {}
+      function c() {}
+      console.log(c); // function c() {}
+    }
+    fn(1,2)
+  </script>
+</body>
+</html>
