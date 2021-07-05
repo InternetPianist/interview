@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>箭头函数</title>
+  </head>
+  <body>
+    <script>
+      var x = 11;
+      var obj1 = {
+        x: 22,
+        say: () => {
+          // 当前上下文的执行环境是obj
+          // 使用箭头函数后就指向上一级上下文的指向环境，这里的this也就是window
+          console.log(this.x);
+        },
+      };
+      obj1.say();
+
+      var obj2 = {
+        birth: 1990,
+        getAge() {
+          var b = this.birth;
+          var fn = () => new Date().getFullYear() - this.birth; // this执行obj2, 嵌套了一层函数，外面的上下文是obj2
+          return fn();
+        },
+      };
+      console.log(obj2.getAge());
+    </script>
+  </body>
+</html>
