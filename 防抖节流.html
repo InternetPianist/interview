@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>防抖节流</title>
+  </head>
+  <body>
+    <input type="text" id="input" />
+    <script>
+      var input = document.getElementById("input");
+      input.oninput = debounce(function (e) {
+        console.log(this.value);
+        console.log(e.target.value);
+      }, 1000);
+      // 防抖函数
+      function debounce(func, delay) {
+        let timeId;
+        // 通过闭包存储timeId这个变量
+        return function (...args) { // 事件处理函数
+          if (timeId) clearTimeout(timeId); // 有值就会清除定时器，不调用回调函数
+          timeId = setTimeout(() => {
+            func.apply(this, args);
+          }, delay);
+        };
+      }
+    </script>
+  </body>
+</html>
