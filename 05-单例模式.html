@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>单例模式</title>
+  </head>
+  <body>
+    <button id="loginBtn">登录</button>
+    <script>
+      function createLogin(a, b, c) {
+        console.log(a, b, c);
+        var div = document.createElement("div");
+        div.innerHTML = "我是登录弹窗";
+        div.style.display = "none";
+        document.body.appendChild(div);
+        return div;
+      }
+      // 缓存了登录框
+      function getSingle(fn) {
+        var result;
+        return function () {
+          return result || (result = fn.apply(this, arguments));
+        };
+      }
+      var create = getSingle(createLogin);
+      // 多次点击只能创建一个，因为闭包中已经缓存了
+      document.getElementById("loginBtn").onclick = function () {
+        var loginLay = create(1, 2, 3);
+        loginLay.style.display = "block";
+      };
+
+      // // 这种方式点击会创建多个
+      // function getSingle() {
+      //   return function createLogin(a, b, c) {
+      //     console.log(a, b, c);
+      //     var div = document.createElement("div");
+      //     div.innerHTML = "我是登录弹窗";
+      //     div.style.display = 'none'
+      //     document.body.appendChild(div);
+      //     return div;
+      //   };
+      // }
+      // var create = getSingle()
+      // document.getElementById('loginBtn').onclick = function () {
+      //   var loginLay = create(1,2,3)
+      //   loginLay.style.display = 'block'
+      // }
+    </script>
+  </body>
+</html>
