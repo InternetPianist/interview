@@ -9,6 +9,9 @@
   <body>
     <button id="loginBtn">登录</button>
     <script>
+      /*
+       单例模式：主要利用闭包缓存的变量作为值返回，有值就直接返回结果，没有值就调用函数赋值给缓存的变量
+      */ 
       function createLogin(a, b, c) {
         console.log(a, b, c);
         var div = document.createElement("div");
