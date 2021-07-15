@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var Pubsub = (function () {
+        subObj = {};
+        return {
+          // 发布
+          publish() {
+            var key = Array.prototype.shift.call(arguments);
+            for (var i = 0, fn; (fn = subObj[key][i++]); ) {
+              fn.apply(this, arguments);
+            }
+          },
+          // 保存订阅的消息
+          subscribe(type, handler) {
+            (subObj[type] || (subObj[type] = [])).push(handler);
+          },
+          remove(type, handler) {
+            // 没有参数移除所有
+            if (arguments === 0) {
+              subObj = null;
+            } else if (arguments.length === 1) {
+              subObj[type] = [];
+            } else if (arguments.length === 2) {
+              var _events = subObj[type];
+              if (!_events) return;
+              for (var i = 0, fn; (fn = _events[i++]); ) {
+                _events.splice(i, 1);
+              }
+            }
+          },
+        };
+      })();
+      // 订阅
+      Pubsub.subscribe("eat", function (arg) {
+        console.log("订阅", arg);
+      });
+      Pubsub.subscribe("eat", function (arg) {
+        console.log("订阅", arg);
+      });
+      Pubsub.subscribe("play", function (arg) {
+        console.log("打游戏", arg);
+      });
+      Pubsub.publish("eat", "饭"); // 发布
+      Pubsub.publish("play", "玩"); // 发布
+    </script>
+  </body>
+</html>
