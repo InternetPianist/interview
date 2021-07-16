@@ -9,12 +9,14 @@
   <body>
     <script>
       var Pubsub = (function () {
-        subObj = {};
+        var subObj = {};
         return {
           // 发布
           publish() {
             var key = Array.prototype.shift.call(arguments);
-            for (var i = 0, fn; (fn = subObj[key][i++]); ) {
+            var _pubs = subObj[key];
+            if (!_pubs) return;
+            for (var i = 0, fn; (fn = _pubs[i++]); ) {
               fn.apply(this, arguments);
             }
           },
@@ -24,15 +26,17 @@
           },
           remove(type, handler) {
             // 没有参数移除所有
-            if (arguments === 0) {
-              subObj = null;
+            if (arguments.length === 0) {
+              subObj = {};
             } else if (arguments.length === 1) {
               subObj[type] = [];
             } else if (arguments.length === 2) {
               var _events = subObj[type];
               if (!_events) return;
               for (var i = 0, fn; (fn = _events[i++]); ) {
-                _events.splice(i, 1);
+                if (fn === handler) {
+                  _events.splice(i, 1);
+                }
               }
             }
           },
@@ -49,6 +53,7 @@
         console.log("打游戏", arg);
       });
       Pubsub.publish("eat", "饭"); // 发布
+      Pubsub.remove('play');
       Pubsub.publish("play", "玩"); // 发布
     </script>
   </body>
