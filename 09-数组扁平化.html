@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数组扁平化</title>
+  </head>
+  <body>
+    <script>
+      var arr = [1, [2, 3, [4], 5], 6, [7], [8, [9], [10]], 11];
+      // 方法一：使用falt(n)
+      console.log(arr.flat(Infinity));
+      // 方法二：利用正则 /\[|\]/g 全部匹配 [ 或者 ] 替换为空字符  数字类型会变为字符串！！！
+      console.log(JSON.stringify(arr).replace(/\[|\]/g, "").split(","));
+      // 方法三：正则改良版
+      console.log(JSON.parse(`[${JSON.stringify(arr).replace(/\[|\]/g, "")}]`));
+
+      // 方法四：reduce+递归
+      // function flat(arr) {
+      //   return arr.reduce((pre, cur) => Array.isArray(cur) ? (pre = [...pre, ...flat(cur)]): (pre = [...pre, cur]),[]);
+      // }
+      const flat = (arr) =>
+        arr.reduce(
+          (pre, cur) =>
+            Array.isArray(cur)
+              ? (pre = [...pre, ...flat(cur)])
+              : (pre = [...pre, cur]),
+          []
+        );
+      console.log(flat(arr));
+      // 方法五： 循环+递归
+      const fn = (arr, target = []) => {
+        for (let i = 0; i < arr.length; i++) {
+          if (Array.isArray(arr[i])) {
+            fn(arr[i], target);
+          } else {
+            target.push(arr[i]);
+          }
+        }
+        return target;
+      };
+      console.log(fn(arr));
+
+      const flat2 = (arr, target = []) => {
+        for (let i = 0, item; (item = arr[i++]); ) {
+          Array.isArray(item) ? flat2(item, target) : target.push(item);
+        }
+        return target;
+      };
+      console.log(flat2(arr));
+    </script>
+  </body>
+</html>
