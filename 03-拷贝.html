@@ -14,13 +14,13 @@
       var obj = {};
 
       var person = {
-        name: "张三",
-        hobby: ["学习", ["看电影", "shopping"], "跑步"],
+        name: '张三',
+        hobby: ['学习', ['看电影', 'shopping'], '跑步'],
         date: new RegExp('\\w+'),
         obj: {
           name: '小三',
-          car: ['奔驰', '奥迪']
-        }
+          car: ['奔驰', '奥迪'],
+        },
       };
       // var person1 = person
       // person1.name = '李四'
@@ -49,39 +49,54 @@
       // 深度拷贝
       function deepClone(obj) {
         var cloneObj = {};
-        if(obj === null) return obj
-        if(obj instanceof Date) return new Date(obj)
-        if(obj instanceof RegExp) return new RegExp(obj)
-        if(typeof obj !== 'object') return obj
+        if (obj === null) return obj;
+        if (obj instanceof Date) return new Date(obj);
+        if (obj instanceof RegExp) return new RegExp(obj);
+        if (typeof obj !== 'object') return obj;
         for (const key in obj) {
           if (Object.hasOwnProperty.call(obj, key)) {
             cloneObj[key] = deepClone(obj[key]);
           }
         }
-        return cloneObj
+        return cloneObj;
       }
       // var person1 = deepClone(person)
-      var person1 = JSON.parse(JSON.stringify(person))
+      var person1 = JSON.parse(JSON.stringify(person));
 
-      person1.name = "李四";
-      person1.hobby[0] = "玩耍";
+      person1.name = '李四';
+      person1.hobby[0] = '玩耍';
       console.log(person);
       console.log(person1);
 
-
+      function deepClone2(obj) {
+        return new Promise((resolve) => {
+          const { port1, port2 } = new MessageChannel();
+          port1.postMessage(obj);
+          port2.onmessage = function (msg) {
+            resolve(msg.data);
+          };
+        });
+      }
+      let obj1 = {
+        name: '高启强',
+        age: 34,
+      };
+      deepClone2(obj1).then((result) => {
+        console.log(result);
+      });
       /**
        * 浅拷贝的实现方式:
        * 1. Object.assign()
        * 2. ...
        * 3. concat
        * 4. lodash clone
-       * 
+       *
        * 深拷贝的实现方式
        * $.extend
        * deepClone(递归拷贝)
        * lodash cloneDeep
-       * */ 
-      // 
+       * */
+      //
     </script>
   </body>
 </html>
